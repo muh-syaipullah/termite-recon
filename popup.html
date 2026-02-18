@@ -1,0 +1,377 @@
+<!--
+  ============================================================
+   Termite Recon - Chrome Extension
+   Popup UI
+  ============================================================
+   Copyright (c) 2025 muh-syaipullah
+   GitHub  : https://github.com/muh-syaipullah
+   License : MIT
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Termite Recon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      min-width: 340px;
+      background: #c62828;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .popup-card {
+      background: #fff;
+      margin: 0;
+      padding: 22px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Header ── */
+    .logo {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+
+    .logo-fallback {
+      width: 54px;
+      height: 54px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+      color: #c62828;
+      font-size: 1.6em;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin: 0 auto 8px;
+    }
+
+    .title {
+      font-size: 1.35em;
+      font-weight: 700;
+      color: #c62828;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .desc {
+      font-size: 0.92em;
+      color: #666;
+      margin-bottom: 16px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #e0e0e0;
+      margin-bottom: 14px;
+    }
+
+    /* ── Proxy section ── */
+    .proxy-section {
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    .proxy-label {
+      font-size: 0.88em;
+      font-weight: 700;
+      color: #c62828;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .proxy-label .hint {
+      font-weight: 400;
+      color: #aaa;
+      font-size: 0.95em;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .proxy-input-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 8px;
+      border: 1.5px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .proxy-input-row input {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      font-size: 0.95em;
+      color: #222;
+      outline: none;
+      background: #fafafa;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+    }
+
+    .proxy-input-row input::placeholder {
+      color: #bbb;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-add {
+      padding: 9px 16px;
+      background: #c62828;
+      color: #fff;
+      border: none;
+      font-size: 0.92em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-add:hover {
+      background: #b71c1c;
+    }
+
+    /* Proxy list */
+    .proxy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .proxy-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      padding: 8px 10px;
+      border-radius: 4px;
+    }
+
+    .proxy-item.disabled {
+      opacity: 0.4;
+    }
+
+    .proxy-item input[type="checkbox"] {
+      accent-color: #c62828;
+      cursor: pointer;
+    }
+
+    .proxy-domain {
+      flex: 1;
+      font-size: 0.92em;
+      color: #333;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      word-break: break-all;
+    }
+
+    .proxy-path-hint {
+      font-size: 0.82em;
+      color: #bbb;
+      white-space: nowrap;
+    }
+
+    .btn-del {
+      background: none;
+      border: none;
+      color: #c62828;
+      cursor: pointer;
+      font-size: 1em;
+      padding: 0 4px;
+      opacity: 0.6;
+      transition: opacity 0.15s;
+      font-weight: 700;
+    }
+
+    .btn-del:hover {
+      opacity: 1;
+    }
+
+    .proxy-empty {
+      font-size: 0.9em;
+      color: #bbb;
+      text-align: center;
+      padding: 10px 0;
+      font-style: italic;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      margin: 5px 0;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 1.05em;
+      border: 1.5px solid #c62828;
+      background: #fff;
+      color: #c62828;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.3px;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn:hover {
+      background: #ffeaea;
+    }
+
+    .btn-scan {
+      background: #c62828;
+      color: #fff;
+      border-color: #c62828;
+    }
+
+    .btn-scan:hover {
+      background: #b71c1c;
+    }
+
+    .version {
+      margin-top: 12px;
+      font-size: 0.82em;
+      color: #bbb;
+      letter-spacing: 1px;
+    }
+
+    /* ── Loading overlay ── */
+    #scanLoading {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.93);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .loading-bar-wrap {
+      width: 180px;
+      height: 3px;
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      overflow: hidden;
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 40%;
+      background: #c62828;
+      animation: slide 1.2s ease-in-out infinite;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(350%);
+      }
+    }
+
+    #scanStatus {
+      color: #c62828;
+      font-weight: 600;
+      font-size: 1em;
+      text-align: center;
+      padding: 0 20px;
+      max-width: 260px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* scrollbar */
+    .proxy-list::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .proxy-list::-webkit-scrollbar-thumb {
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="popup-card">
+
+    <!-- Header -->
+    <img src="icon.png" class="logo" alt="Termite Recon"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+    <div class="logo-fallback">S</div>
+    <div class="title">Termite Recon</div>
+    <div class="desc">Crawl public web files and uncover API keys, secrets, and endpoints.</div>
+
+    <div class="divider"></div>
+
+    <!-- Proxy Section -->
+    <div class="proxy-section">
+      <div class="proxy-label">
+        Proxy Domains
+        <span class="hint">(optional, bypass CORS)</span>
+      </div>
+
+      <div class="proxy-input-row">
+        <input id="proxyDomainInput" type="text" placeholder="example: api.codetabs.com" />
+        <button class="btn-add" id="addProxyBtn">+ Add</button>
+      </div>
+
+      <div class="proxy-list" id="proxyList">
+        <div class="proxy-empty" id="proxyEmpty">No proxies. Scan will direct fetch.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Action Buttons -->
+    <button class="btn btn-scan" id="scanBtn">Scan</button>
+    <button class="btn" id="resultBtn">Result</button>
+
+    <div class="version">V1.0</div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="scanLoading">
+    <div class="loading-bar-wrap">
+      <div class="loading-bar"></div>
+    </div>
+    <div id="scanStatus">Scanning...</div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Termite Recon",
+  "version": "1.0",
+  "description": "Crawl public web files and uncover API keys, secrets, and endpoints.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
