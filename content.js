@@ -14,7 +14,10 @@
  */
 
 // ====== Sensitive Patterns ======
-const sensitivePatterns = [
+// Avoid SyntaxError when this content script is injected/executed multiple times
+// by reusing a single global `window.sensitivePatterns` array if already present.
+if (typeof window.sensitivePatterns === 'undefined') {
+  window.sensitivePatterns = [
   // ── AWS: Credentials ─────────────────────────────────────────────────────
   { name: "AWS Session Token",          regex: /ASIA[0-9A-Z]{16,}/g },
   { name: "AWS SES SMTP Credentials",   regex: /AKIA[0-9A-Z]{16}:[A-Za-z0-9/+=]{40}/g },
@@ -64,7 +67,7 @@ const sensitivePatterns = [
   // Auth / Identity
   { name: "OAuth Client Secret",        regex: /client_secret\s*[:=]\s*['"][A-Za-z0-9-_]{24,}['"]/g },
   { name: "Auth0 Client Secret",        regex: /auth0.+client_secret\s*[:=]\s*['"][A-Za-z0-9-_]{24,}['"]/gi },
-  { name: "Okta API Token",             regex: /00[a-z0-9]{20,}/gi },
+  { name: "Okta API Token",             regex: /\b00[a-zA-Z0-9\-_]{40}\b/g },
   { name: "SAML Certificate",           regex: /-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----/g },
 
   // Payment & SaaS
@@ -109,7 +112,10 @@ const sensitivePatterns = [
   { name: "MongoDB URI",                regex: /mongodb(?:\+srv)?:\/\/[^ "]+/gi },
   { name: "PostgreSQL URI",             regex: /postgres(?:ql)?:\/\/[^ "]+/gi },
   { name: "Redis URI",                  regex: /redis:\/\/[^ "]+/gi },
-];
+  ];
+}
+
+const sensitivePatterns = window.sensitivePatterns;
 
 // ====== Endpoint Regex ======
 const endpointRegex = new RegExp(
@@ -405,8 +411,24 @@ function extractSitemapUrls(xml, baseOrigin) {
   for (const probePath of COMMON_PROBE_PATHS) {
     const probeUrl = baseOrigin + probePath;
     try {
-      const res = await fetch(probeUrl, { method: 'HEAD', cache: 'no-store' });
+      // Use redirect: 'follow' but check if the final URL is different
+      const res = await fetch(probeUrl, { method: 'GET', cache: 'no-store' });
+      
       if (res.ok) {
+        const finalUrl = new URL(res.url);
+        const contentType = res.headers.get('content-type') || '';
+
+        // VALIDATION LOGIC:
+        // 1. If we requested a specific file path but got redirected to a different path (like /login or /), it's a false positive.
+        const pathChanged = finalUrl.pathname !== probePath;
+        
+        // 2. If we expect a config/env file but get HTML, it's a generic error page/redirect.
+        const isHtml = contentType.includes('text/html');
+        const isConfigFile = /\.(env|json|yaml|yml|bak|config|conf|xml|bak)$/i.test(probePath);
+
+        if (pathChanged && finalUrl.pathname !== probePath) continue;
+        if (isConfigFile && isHtml) continue;
+
         allTargetUrls.add(probeUrl);
       }
     } catch {}

@@ -52,24 +52,24 @@ chrome.storage.local.get(['scanResult', 'scanMeta'], (data) => {
 
   document.getElementById('summaryGrid').innerHTML = `
     <div class="summary-card">
-      <div class="num">${results.length}</div>
+      <div class="num" style="color:#eee">${results.length}</div>
       <div class="label">Files with Findings</div>
     </div>
     <div class="summary-card">
-      <div class="num">${filesWithSec}</div>
+      <div class="num" style="color:#e53935">${filesWithSec}</div>
       <div class="label">Files with Secrets</div>
     </div>
     <div class="summary-card">
-      <div class="num">${filesWithEp}</div>
+      <div class="num" style="color:#1e88e5">${filesWithEp}</div>
       <div class="label">Files with Endpoints</div>
     </div>
     <div class="summary-card">
-      <div class="num">${totalSecrets}</div>
-      <div class="label">Total Secret Types Found</div>
+      <div class="num" style="color:#e53935">${totalSecrets}</div>
+      <div class="label">Secret Types Found</div>
     </div>
     <div class="summary-card">
-      <div class="num">${totalEndpoints}</div>
-      <div class="label">Total Unique Endpoints</div>
+      <div class="num" style="color:#1e88e5">${totalEndpoints}</div>
+      <div class="label">Unique Endpoints</div>
     </div>
   `;
 
@@ -294,8 +294,12 @@ function escHtml(str) {
 // File type badge based on URL extension
 function fileTypeBadge(url) {
   const path = url.split('?')[0].toLowerCase();
-  const ext  = path.match(/\.([a-z0-9]+)$/);
-  const e    = ext ? '.' + ext[1] : '';
+  
+  // High priority: Env match (for /.env.local etc)
+  if (path.includes('/.env')) return `<span class="badge badge-type-env">ENV</span>`;
+  
+  const extMatch = path.match(/\.([a-z0-9]+)$/);
+  const ext = extMatch ? '.' + extMatch[1] : '';
 
   const map = {
     '.js': ['badge-type-js',   'JS'],
@@ -312,6 +316,8 @@ function fileTypeBadge(url) {
     '.bak': ['badge-type-bak', 'BAK'],
     '.backup':['badge-type-bak','BAK'],
     '.old': ['badge-type-bak', 'OLD'],
+    '.orig':['badge-type-bak', 'ORIG'],
+    '.tmp': ['badge-type-bak', 'TMP'],
     '.php': ['badge-type-php', 'PHP'],
     '.py':  ['badge-type-php', 'PY'],
     '.rb':  ['badge-type-php', 'RB'],
@@ -319,10 +325,11 @@ function fileTypeBadge(url) {
     '.ini': ['badge-type-yaml','INI'],
     '.tf':  ['badge-type-yaml','TF'],
     '.graphql':['badge-type-ts','GQL'],
+    '.gql': ['badge-type-ts','GQL'],
   };
 
-  const [cls, label] = map[e] || ['badge-type-other', e.replace('.','') || 'FILE'];
-  return `<span class="badge ${cls}">${label}</span>`;
+  const [cls, label] = map[ext] || ['badge-type-other', ext.replace('.','') || 'FILE'];
+  return `<span class="badge ${cls}">${label.toUpperCase()}</span>`;
 }
 
 function downloadJson(data, filename) {

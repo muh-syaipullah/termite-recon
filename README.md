@@ -69,7 +69,29 @@
 
 ---
 
-## 📂 Scanned File Formats
+## 🖼️ Screenshots
+
+The following screenshots illustrate the extension user interface and sample scan results. These images provide a quick overview of how to operate the extension and interpret its output.
+
+<p align="center">
+  <img src="screenshot/popup.PNG" alt="Popup" width="420" />
+  <br>
+  <strong>Popup — Configuration & Scan Trigger:</strong> The extension popup used to manage CORS proxies, configure scan options, and start scans quickly.
+</p>
+
+<p align="center">
+  <img src="screenshot/Termite Recon - Scan Result.PNG" alt="Scan Result - SECRETS" width="820" />
+  <br>
+  <strong>Scan Result — SECRETS Tab:</strong> Listed sensitive findings grouped by type, with search, filtering, and export capabilities for triage and reporting.
+</p>
+
+<p align="center">
+  <img src="screenshot/endpoin_sampel.PNG" alt="Scan Result - ENDPOINTS" width="820" />
+  <br>
+  <strong>Scan Result — ENDPOINTS Tab:</strong> Discovered endpoints with source file references and contextual code excerpts to aid investigation.
+</p>
+
+---
 
 | Category | Extensions |
 |----------|-----------|
