@@ -20,19 +20,19 @@
 
 ## ✨ Features
 
-- **Multi-format scanning** — JS, TS, JSON, YAML, XML, ENV, BAK, PHP, GraphQL, Terraform, and more
-- **Phase 0: Config path probing** — automatically probes 40+ common exposed paths (`/.env`, `/config.json`, `/swagger.json`, `/credentials.json`, etc.)
-- **Phase 1: Crawl & discover** — crawls up to 30 pages, reads `sitemap.xml`, collects all scannable file links from `<script>`, `<link>`, and `<a>` tags
-- **Phase 2: Deep scan** — dual-layer scan:
-  - **Regex-based** — works on any text format
-  - **JSON-aware deep scan** — parses JSON structure and walks every key-value pair recursively, detects sensitive key names even without regex match
-- **70+ secret pattern detection** — covers AWS, GCP, Azure, Stripe, GitHub, Slack, OpenAI, JWT, and many more (full list below)
-- **AWS detection (18 patterns)** — Access Key, Secret Key, Session Token, SES SMTP, S3 Buckets (3 formats), ARN, CloudFront, API Gateway, Cognito (3 types), Lambda URL, SQS, SNS, ECR, RDS, ElastiCache, Elastic Beanstalk, Region, Account ID
-- **File type badges** — color-coded badges (JS, JSON, ENV, YAML, XML, BAK, PHP, etc.) per file in results
-- **Proxy support** — configurable CORS proxy list with built-in known proxies (CodetTabs, Corsproxy, AllOrigins, etc.)
-- **Export results** — export secrets, endpoints, or full findings as JSON
-- **Search & filter** — real-time search and filter by type (secrets / endpoints / all files)
-- **Sticky header & tabs** — Secrets | Endpoints | All Files view
+- **Multi-format scanning** - JS, TS, JSON, YAML, XML, ENV, BAK, PHP, GraphQL, Terraform, and more
+- **Phase 0: Config path probing** - automatically probes 40+ common exposed paths (`/.env`, `/config.json`, `/swagger.json`, `/credentials.json`, etc.)
+- **Phase 1: Crawl & discover** - crawls up to 30 pages, reads `sitemap.xml`, collects all scannable file links from `<script>`, `<link>`, and `<a>` tags
+- **Phase 2: Deep scan** - dual-layer scan:
+  - **Regex-based** - works on any text format
+  - **JSON-aware deep scan** - parses JSON structure and walks every key-value pair recursively, detects sensitive key names even without regex match
+- **70+ secret pattern detection** - covers AWS, GCP, Azure, Stripe, GitHub, Slack, OpenAI, JWT, and many more (full list below)
+- **AWS detection (18 patterns)** - Access Key, Secret Key, Session Token, SES SMTP, S3 Buckets (3 formats), ARN, CloudFront, API Gateway, Cognito (3 types), Lambda URL, SQS, SNS, ECR, RDS, ElastiCache, Elastic Beanstalk, Region, Account ID
+- **File type badges** - color-coded badges (JS, JSON, ENV, YAML, XML, BAK, PHP, etc.) per file in results
+- **Proxy support** - configurable CORS proxy list with built-in known proxies (CodetTabs, Corsproxy, AllOrigins, etc.)
+- **Export results** - export secrets, endpoints, or full findings as JSON
+- **Search & filter** - real-time search and filter by type (secrets / endpoints / all files)
+- **Sticky header & tabs** - Secrets | Endpoints | All Files view
 
 ---
 
@@ -76,19 +76,19 @@ The following screenshots illustrate the extension user interface and sample sca
 <p align="center">
   <img src="screenshot/popup.PNG" alt="Popup" width="420" />
   <br>
-  <strong>Popup — Configuration & Scan Trigger:</strong> The extension popup used to manage CORS proxies, configure scan options, and start scans quickly.
+  <strong>Popup - Configuration & Scan Trigger:</strong> The extension popup used to manage CORS proxies, configure scan options, and start scans quickly.
 </p>
 
 <p align="center">
   <img src="screenshot/Termite Recon - Scan Result.PNG" alt="Scan Result - SECRETS" width="820" />
   <br>
-  <strong>Scan Result — SECRETS Tab:</strong> Listed sensitive findings grouped by type, with search, filtering, and export capabilities for triage and reporting.
+  <strong>Scan Result - SECRETS Tab:</strong> Listed sensitive findings grouped by type, with search, filtering, and export capabilities for triage and reporting.
 </p>
 
 <p align="center">
   <img src="screenshot/endpoin_sampel.PNG" alt="Scan Result - ENDPOINTS" width="820" />
   <br>
-  <strong>Scan Result — ENDPOINTS Tab:</strong> Discovered endpoints with source file references and contextual code excerpts to aid investigation.
+  <strong>Scan Result - ENDPOINTS Tab:</strong> Discovered endpoints with source file references and contextual code excerpts to aid investigation.
 </p>
 
 ---
@@ -298,7 +298,7 @@ This tool is intended for **authorized security testing and educational purposes
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
 
 ---
 
