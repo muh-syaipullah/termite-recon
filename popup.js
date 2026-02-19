@@ -181,3 +181,8 @@ document.getElementById('scanBtn').addEventListener('click', () => {
 document.getElementById('resultBtn').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('result.html') });
 });
+// ── GitHub Link ───────────────────────────────────────────────────────────
+document.getElementById('githubLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  chrome.tabs.create({ url: 'https://github.com/muh-syaipullah/termite-recon' });
+});
