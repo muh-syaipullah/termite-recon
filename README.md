@@ -1,9 +1,12 @@
-# 🐛 Termite Recon
+<p align="center">
+  <img src="icon.png" width="128" height="128" alt="Termite Recon Logo">
+</p>
 
-> A Chrome Extension to crawl public web files and uncover **API keys**, **secrets**, and **endpoints**.
+<h1 align="center">Termite Recon</h1>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-muh--syaipullah-181717?logo=github)](https://github.com/muh-syaipullah)
+<p align="center">
+  Crawl public web files and uncover API keys, secrets, and endpoints.
+</p>
 
 ---
 
@@ -279,7 +282,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 
 ## 👤 Author
 
-**muh-syaipullah**
+**MUH. SYAIPULLAH**
 - GitHub: [@muh-syaipullah](https://github.com/muh-syaipullah)
 
 ---
