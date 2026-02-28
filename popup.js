@@ -186,3 +186,101 @@ document.getElementById('githubLink').addEventListener('click', (e) => {
   e.preventDefault();
   chrome.tabs.create({ url: 'https://github.com/muh-syaipullah/termite-recon' });
 });
+
+// ── AI API Key Management ───────────────────────────────────────────────
+// Detect AI provider from API key format
+function detectAiProvider(key) {
+  if (!key) return null;
+  const k = key.trim();
+  // Gemini / Google AI (starts with AIza)
+  if (/^AIza[0-9A-Za-z\-_]{35}$/i.test(k)) return 'gemini';
+  // Claude / Anthropic (starts with sk-ant-)
+  if (k.startsWith('sk-ant-')) return 'claude';
+  // DeepSeek (starts with sk- and longer format or contains deepseek hint)
+  if (/^sk-[a-f0-9]{32,}$/i.test(k)) return 'deepseek';
+  // OpenRouter (starts with sk-or-v1-)
+  if (k.startsWith('sk-or-v1-')) return 'openrouter';
+  // ChatGPT / OpenAI (starts with sk-)
+  if (k.startsWith('sk-')) return 'chatgpt';
+  // Try generic detection for longer keys
+  if (k.length > 20) return 'unknown';
+  return null;
+}
+
+function getProviderLabel(provider) {
+  const labels = {
+    'gemini':  '✦ Gemini',
+    'chatgpt': '◉ ChatGPT',
+    'claude':  '◈ Claude',
+    'deepseek':'◆ DeepSeek',
+    'openrouter':'◯ OpenRouter',
+    'unknown': '? Unknown',
+  };
+  return labels[provider] || '? Unknown';
+}
+
+// Render AI key status
+function renderAiKeyStatus(key, provider) {
+  const statusEl = document.getElementById('aiStatus');
+  if (!key || !provider) {
+    statusEl.innerHTML = '<span class="ai-status-text" id="aiStatusText">No API key configured.</span>';
+    return;
+  }
+  const masked = key.slice(0, 6) + '••••••' + key.slice(-4);
+  statusEl.innerHTML = `
+    <span class="ai-provider-badge ${provider}">${getProviderLabel(provider)}</span>
+    <span class="ai-status-text">${masked}</span>
+    <button class="btn-clear-ai" id="clearAiKeyBtn" title="Remove API key">✕</button>
+  `;
+  // Attach clear handler
+  document.getElementById('clearAiKeyBtn').addEventListener('click', () => {
+    chrome.storage.local.remove(['aiApiKey', 'aiProvider'], () => {
+      document.getElementById('aiKeyInput').value = '';
+      renderAiKeyStatus(null, null);
+    });
+  });
+}
+
+// Load saved AI key on popup open
+chrome.storage.local.get(['aiApiKey', 'aiProvider'], (data) => {
+  if (data.aiApiKey && data.aiProvider) {
+    renderAiKeyStatus(data.aiApiKey, data.aiProvider);
+  }
+});
+
+// Save AI key
+document.getElementById('saveAiKeyBtn').addEventListener('click', () => {
+  const input = document.getElementById('aiKeyInput');
+  const key = input.value.trim();
+  if (!key) {
+    input.style.borderColor = '#ff9800';
+    input.placeholder = 'Please enter an API key!';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.placeholder = 'Paste your AI API key here...';
+    }, 1500);
+    return;
+  }
+
+  const provider = detectAiProvider(key);
+  if (!provider) {
+    input.style.borderColor = '#ff9800';
+    input.value = '';
+    input.placeholder = 'Invalid key format!';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.placeholder = 'Paste your AI API key here...';
+    }, 1500);
+    return;
+  }
+
+  chrome.storage.local.set({ aiApiKey: key, aiProvider: provider }, () => {
+    input.value = '';
+    renderAiKeyStatus(key, provider);
+  });
+});
+
+// Enter in AI key input triggers Save
+document.getElementById('aiKeyInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('saveAiKeyBtn').click();
+});

@@ -5,7 +5,8 @@
 <h1 align="center">Termite Recon</h1>
 
 <p align="center">
-  Crawl public web files and uncover API keys, secrets, and endpoints.
+  <strong>v2.0</strong> — Crawl public web files and uncover API keys, secrets, and endpoints.<br>
+  Now with <strong>AI-Powered Security Analysis</strong> 🤖🔒
 </p>
 
 ---
@@ -14,12 +15,28 @@
 
 **Termite Recon** is an open-source Chrome Extension designed for security researchers and bug bounty hunters. It automatically scans a target website by crawling its publicly accessible files and looking for sensitive data such as API keys, secrets, credentials, tokens, and exposed endpoints.
 
+**New in v2.0:** Integrated AI-powered security analysis that automatically reviews your scan findings and provides a professional security assessment with risk scores, severity classifications, and actionable recommendations.
+
 > ⚠️ **For Educational & Authorized Use Only.** Always get proper permission before scanning any website.
+
+---
+
+## 🆕 What's New in v2.0
+
+| Feature | Description |
+|---------|-------------|
+| 🤖 **AI Security Analysis** | Automatically analyze scan results using AI to identify critical risks, classify severity, and get actionable recommendations |
+| 🔑 **Multi-Provider AI Support** | Choose from **Gemini**, **ChatGPT**, **Claude**, **DeepSeek**, or **OpenRouter** (300+ models) |
+| 🧠 **Auto Provider Detection** | The extension auto-detects your AI provider based on the API key format |
+| 📊 **Risk Scoring** | AI generates an overall risk score (0-100) with detailed justification |
+| 📝 **Markdown Rendering** | AI analysis is rendered in rich, formatted markdown with severity highlighting |
+| ⚡ **Auto-Analysis** | AI analysis runs automatically after scan results are loaded (if API key is configured) |
 
 ---
 
 ## ✨ Features
 
+### 🔍 Scanning Engine
 - **Multi-format scanning** - JS, TS, JSON, YAML, XML, ENV, BAK, PHP, GraphQL, Terraform, and more
 - **Phase 0: Config path probing** - automatically probes 40+ common exposed paths (`/.env`, `/config.json`, `/swagger.json`, `/credentials.json`, etc.)
 - **Phase 1: Crawl & discover** - crawls up to 30 pages, reads `sitemap.xml`, collects all scannable file links from `<script>`, `<link>`, and `<a>` tags
@@ -28,11 +45,22 @@
   - **JSON-aware deep scan** - parses JSON structure and walks every key-value pair recursively, detects sensitive key names even without regex match
 - **70+ secret pattern detection** - covers AWS, GCP, Azure, Stripe, GitHub, Slack, OpenAI, JWT, and many more (full list below)
 - **AWS detection (18 patterns)** - Access Key, Secret Key, Session Token, SES SMTP, S3 Buckets (3 formats), ARN, CloudFront, API Gateway, Cognito (3 types), Lambda URL, SQS, SNS, ECR, RDS, ElastiCache, Elastic Beanstalk, Region, Account ID
+
+### 🤖 AI Security Analysis (New in v2.0)
+- **Multi-provider support** - Gemini, ChatGPT, Claude, DeepSeek, OpenRouter
+- **Automated risk assessment** - Critical / High / Medium / Low severity classification
+- **Risk score** - Overall security risk score from 0-100
+- **Actionable recommendations** - Prioritized remediation steps
+- **Rich markdown output** - Professional security report with formatted sections
+- **Auto-detection** - Automatically identifies your AI provider from the API key
+- **One-click analysis** - Run AI analysis with a single click, or auto-run on scan completion
+
+### 🛠️ Tools & UI
 - **File type badges** - color-coded badges (JS, JSON, ENV, YAML, XML, BAK, PHP, etc.) per file in results
-- **Proxy support** - configurable CORS proxy list with built-in known proxies (CodetTabs, Corsproxy, AllOrigins, etc.)
+- **Proxy support** - configurable CORS proxy list with built-in known proxies (CodeTabs, Corsproxy, AllOrigins, etc.)
 - **Export results** - export secrets, endpoints, or full findings as JSON
 - **Search & filter** - real-time search and filter by type (secrets / endpoints / all files)
-- **Sticky header & tabs** - Secrets | Endpoints | All Files view
+- **Sticky header & tabs** - Secrets | Endpoints | All Files | AI Analysis view
 
 ---
 
@@ -60,12 +88,31 @@
 
 ## 🧭 How to Use
 
+### Basic Scanning
 1. Navigate to the **target website** you want to scan
 2. Click the **Termite Recon** icon in the Chrome toolbar
 3. *(Optional)* Add a CORS proxy if needed (e.g., `api.codetabs.com`)
 4. Click **"Scan"**
 5. Wait for the scan to complete (Phase 0 → Phase 1 → Phase 2)
 6. Click **"Result"** to view findings in a new tab
+
+### AI Security Analysis (v2.0)
+1. In the popup, find the **"AI Analysis Key"** section
+2. Paste your AI API key (supports Gemini, ChatGPT, Claude, DeepSeek, or OpenRouter)
+3. The provider will be **auto-detected** from your key format
+4. Click **"Save"** — the provider badge will appear
+5. Run a scan — AI analysis will **automatically start** after results load
+6. You can also manually click **"Run AI Analysis"** in the results page
+
+### Supported AI Providers & API Keys
+
+| Provider | Key Format | Free Tier |
+|----------|-----------|-----------|
+| **Gemini** | `AIza...` | ✅ Free tier available |
+| **ChatGPT** | `sk-...` (not `sk-or-`) | ❌ Paid |
+| **Claude** | `sk-ant-...` | ❌ Paid |
+| **DeepSeek** | `sk-...` (with deepseek context) | ✅ Low cost |
+| **OpenRouter** | `sk-or-...` | ✅ Free models available (e.g., DeepSeek R1, Llama 3.3 70B) |
 
 ---
 
@@ -76,7 +123,7 @@ The following screenshots illustrate the extension user interface and sample sca
 <p align="center">
   <img src="screenshot/popup.PNG" alt="Popup" width="420" />
   <br>
-  <strong>Popup - Configuration & Scan Trigger:</strong> The extension popup used to manage CORS proxies, configure scan options, and start scans quickly.
+  <strong>Popup - Configuration & Scan Trigger:</strong> The extension popup used to manage CORS proxies, configure AI API keys, and start scans quickly.
 </p>
 
 <p align="center">
@@ -271,14 +318,14 @@ You can also add your own custom proxy domain.
 ## 🗂️ Project Structure
 
 ```
-chrome-extension/
+termite-recon/
 ├── manifest.json       # Extension manifest (MV3)
 ├── background.js       # Service worker
 ├── content.js          # Scanner engine (injected into page)
-├── popup.html          # Extension popup UI
-├── popup.js            # Popup logic & proxy manager
-├── result.html         # Scan result page
-├── result.js           # Result renderer
+├── popup.html          # Extension popup UI (scan + AI config)
+├── popup.js            # Popup logic, proxy manager & AI key manager
+├── result.html         # Scan result page (with AI analysis panel)
+├── result.js           # Result renderer + AI analysis engine
 ├── icon.png            # Extension icon
 ├── LICENSE             # MIT License
 └── README.md           # This file

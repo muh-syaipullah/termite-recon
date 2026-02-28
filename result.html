@@ -457,6 +457,300 @@
       border-left: 3px solid #7b1fa2;
       padding-left: 8px;
     }
+
+    /* ── AI Analysis Section ── */
+    .ai-analysis-section {
+      margin-top: 40px;
+      border-top: 2px solid #2a2a2a;
+      padding-top: 28px;
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ai-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-title .ai-icon {
+      font-size: 1.2em;
+      animation: aiPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes aiPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+      }
+    }
+
+    .ai-provider-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      font-size: 0.82em;
+      font-weight: 700;
+      border-radius: 3px;
+      letter-spacing: 0.3px;
+    }
+
+    .ai-provider-tag.gemini {
+      background: #1a3a6e;
+      color: #5eb3f7;
+    }
+
+    .ai-provider-tag.chatgpt {
+      background: #1a3a2e;
+      color: #4caf50;
+    }
+
+    .ai-provider-tag.claude {
+      background: #3a2a1a;
+      color: #ff9800;
+    }
+
+    .ai-provider-tag.deepseek {
+      background: #1a2a4e;
+      color: #42a5f5;
+    }
+
+    .ai-provider-tag.openrouter {
+      background: #2a1a3a;
+      color: #e1bee7;
+    }
+
+    .btn-ai-analyze {
+      padding: 10px 22px;
+      background: linear-gradient(135deg, #c62828, #e53935);
+      color: #fff;
+      border: none;
+      font-size: 0.95em;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ai-analyze:hover {
+      background: linear-gradient(135deg, #b71c1c, #c62828);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
+    }
+
+    .btn-ai-analyze:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .ai-loading {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+
+    .ai-loading.active {
+      display: flex;
+    }
+
+    .ai-loading-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .ai-loading-dots span {
+      width: 8px;
+      height: 8px;
+      background: #c62828;
+      border-radius: 50%;
+      animation: dotBounce 1.4s ease-in-out infinite;
+    }
+
+    .ai-loading-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .ai-loading-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes dotBounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+      }
+
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .ai-loading-text {
+      color: #aaa;
+      font-size: 0.95em;
+      font-style: italic;
+    }
+
+    .ai-result-box {
+      display: none;
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      padding: 24px;
+      line-height: 1.8;
+      font-size: 0.95em;
+      color: #ddd;
+      overflow-x: auto;
+    }
+
+    .ai-result-box.active {
+      display: block;
+    }
+
+    .ai-result-box h1,
+    .ai-result-box h2,
+    .ai-result-box h3 {
+      color: #fff;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 6px;
+    }
+
+    .ai-result-box h1 {
+      font-size: 1.3em;
+    }
+
+    .ai-result-box h2 {
+      font-size: 1.15em;
+    }
+
+    .ai-result-box h3 {
+      font-size: 1.05em;
+      border-bottom: none;
+    }
+
+    .ai-result-box ul,
+    .ai-result-box ol {
+      margin: 8px 0;
+      padding-left: 24px;
+    }
+
+    .ai-result-box li {
+      margin-bottom: 4px;
+    }
+
+    .ai-result-box code {
+      background: #2a2a2a;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #e0e0e0;
+    }
+
+    .ai-result-box pre {
+      background: #0a0a0a;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      padding: 14px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+
+    .ai-result-box pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .ai-result-box strong {
+      color: #fff;
+    }
+
+    .ai-result-box .severity-critical {
+      color: #f44336;
+      font-weight: 700;
+    }
+
+    .ai-result-box .severity-high {
+      color: #ff9800;
+      font-weight: 700;
+    }
+
+    .ai-result-box .severity-medium {
+      color: #ffeb3b;
+      font-weight: 600;
+    }
+
+    .ai-result-box .severity-low {
+      color: #4caf50;
+    }
+
+    .ai-error-box {
+      display: none;
+      background: #2a0000;
+      border: 1px solid #c6282844;
+      border-radius: 4px;
+      padding: 16px 20px;
+      color: #ef9a9a;
+      font-size: 0.95em;
+    }
+
+    .ai-error-box.active {
+      display: block;
+    }
+
+    .ai-no-key {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      color: #888;
+      font-size: 0.95em;
+      line-height: 1.7;
+    }
+
+    .ai-no-key a {
+      color: #e53935;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -511,6 +805,36 @@
         <button class="filter-btn" data-filter="endpoints">Has Endpoints</button>
       </div>
       <div id="allList"></div>
+    </div>
+
+    <!-- AI Analysis Section -->
+    <div class="ai-analysis-section" id="aiAnalysisSection">
+      <div class="ai-header">
+        <div class="ai-title">
+          <span class="ai-icon"></span>
+          AI Security Analysis
+          <span class="ai-provider-tag" id="aiProviderTag" style="display:none"></span>
+        </div>
+        <button class="btn-ai-analyze" id="btnAiAnalyze" style="display:none">
+          <span>▶</span> Run AI Analysis
+        </button>
+      </div>
+
+      <div class="ai-no-key" id="aiNoKey" style="display:none">
+        ⚠️ No AI API key configured.<br>
+        Open the <strong>Termite Recon popup</strong> and add your API key in the
+        <strong>AI Analysis Key</strong> section to enable AI-powered security analysis.
+      </div>
+
+      <div class="ai-loading" id="aiLoading">
+        <div class="ai-loading-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="ai-loading-text" id="aiLoadingText">Analyzing scan results with AI...</span>
+      </div>
+
+      <div class="ai-error-box" id="aiError"></div>
+      <div class="ai-result-box" id="aiResult"></div>
     </div>
 
   </div>
