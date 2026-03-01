@@ -5,17 +5,17 @@
 <h1 align="center">Termite Recon</h1>
 
 <p align="center">
-  <strong>v2.0</strong> — Crawl public web files and uncover API keys, secrets, and endpoints.<br>
-  Now with <strong>AI-Powered Security Analysis</strong> 🤖🔒
+  <strong>v2.0</strong> — The most powerful Chrome Extension for uncovering API keys, secrets, credentials, and hidden endpoints.<br>
+  Equipped with <strong>AI-Powered Security Analysis</strong> 🤖🔒 and <strong>Cookieless Authenticated Scanning</strong> 🍪✅
 </p>
 
 ---
 
 ## 📌 What is Termite Recon?
 
-**Termite Recon** is an open-source Chrome Extension designed for security researchers and bug bounty hunters. It automatically scans a target website by crawling its publicly accessible files and looking for sensitive data such as API keys, secrets, credentials, tokens, and exposed endpoints.
+**Termite Recon** is an advanced open-source Chrome Extension built for **security researchers**, **penetration testers**, and **bug bounty hunters**. It performs deep reconnaissance on target websites — crawling publicly accessible and authenticated pages to detect sensitive data such as API keys, secrets, credentials, tokens, database URIs, and exposed endpoints.
 
-**New in v2.0:** Integrated AI-powered security analysis that automatically reviews your scan findings and provides a professional security assessment with risk scores, severity classifications, and actionable recommendations.
+**New in v2.0:** Integrated AI-powered security analysis that automatically reviews your scan findings and delivers a professional security assessment complete with risk scores, severity classifications, and prioritized remediation recommendations.
 
 > ⚠️ **For Educational & Authorized Use Only.** Always get proper permission before scanning any website.
 
@@ -25,6 +25,7 @@
 
 | Feature | Description |
 |---------|-------------|
+| 🍪 **Cookieless Authenticated Scanning** | Scan behind-login pages **without extracting cookies** — just login normally in your browser and scan directly. No session hijacking, no cookie export tools needed. |
 | 🤖 **AI Security Analysis** | Automatically analyze scan results using AI to identify critical risks, classify severity, and get actionable recommendations |
 | 🔑 **Multi-Provider AI Support** | Choose from **Gemini**, **ChatGPT**, **Claude**, **DeepSeek**, or **OpenRouter** (300+ models) |
 | 🧠 **Auto Provider Detection** | The extension auto-detects your AI provider based on the API key format |
@@ -36,37 +37,63 @@
 
 ## ✨ Features
 
-### 🔍 Scanning Engine
-- **Multi-format scanning** - JS, TS, JSON, YAML, XML, ENV, BAK, PHP, GraphQL, Terraform, and more
-- **Phase 0: Config path probing** - automatically probes 40+ common exposed paths (`/.env`, `/config.json`, `/swagger.json`, `/credentials.json`, etc.)
-- **Phase 1: Crawl & discover** - crawls up to 30 pages, reads `sitemap.xml`, collects all scannable file links from `<script>`, `<link>`, and `<a>` tags
-- **Phase 2: Deep scan** - dual-layer scan:
-  - **Regex-based** - works on any text format
-  - **JSON-aware deep scan** - parses JSON structure and walks every key-value pair recursively, detects sensitive key names even without regex match
-- **70+ secret pattern detection** - covers AWS, GCP, Azure, Stripe, GitHub, Slack, OpenAI, JWT, and many more (full list below)
-- **AWS detection (18 patterns)** - Access Key, Secret Key, Session Token, SES SMTP, S3 Buckets (3 formats), ARN, CloudFront, API Gateway, Cognito (3 types), Lambda URL, SQS, SNS, ECR, RDS, ElastiCache, Elastic Beanstalk, Region, Account ID
+### 🍪 Cookieless Authenticated Scanning — Zero Cookie Hassle
 
-### 🤖 AI Security Analysis (New in v2.0)
-- **Multi-provider support** - Gemini, ChatGPT, Claude, DeepSeek, OpenRouter
-- **Automated risk assessment** - Critical / High / Medium / Low severity classification
-- **Risk score** - Overall security risk score from 0-100
-- **Actionable recommendations** - Prioritized remediation steps
-- **Rich markdown output** - Professional security report with formatted sections
-- **Auto-detection** - Automatically identifies your AI provider from the API key
-- **One-click analysis** - Run AI analysis with a single click, or auto-run on scan completion
+> **Unlike other reconnaissance tools**, Termite Recon does **NOT** require you to manually extract, export, or inject cookies to scan pages behind authentication.
+
+Most security scanners require you to intercept cookies via DevTools, Burp Suite, or browser cookie-export extensions before scanning authenticated pages. **Termite Recon eliminates this friction entirely.**
+
+**How it works:**
+1. Simply **login** to the target website in your browser as you normally would
+2. Navigate to any authenticated page you want to scan
+3. Click **Scan** — Termite Recon leverages your active browser session to access and scan the page content directly
+
+**Why this matters:**
+- ✅ **No cookie extraction** — skip the tedious process of copying and pasting session cookies
+- ✅ **No external tools needed** — no Burp Suite, no EditThisCookie, no cookie managers
+- ✅ **Session-aware scanning** — scans the exact same content you see in your browser, including authenticated APIs and hidden endpoints
+- ✅ **Faster workflow** — login once, scan everything. No re-authentication or cookie refresh needed
+- ✅ **Works with any auth method** — SSO, OAuth, MFA, SAML — if you can login in Chrome, Termite Recon can scan it
+
+---
+
+### 🔍 Advanced Scanning Engine
+- **Multi-format deep scanning** — JS, TS, JSON, YAML, XML, ENV, BAK, PHP, GraphQL, Terraform, and 15+ more file types
+- **Phase 0: Config path probing** — automatically probes 40+ commonly exposed paths (`/.env`, `/config.json`, `/swagger.json`, `/credentials.json`, etc.)
+- **Phase 1: Intelligent crawling** — crawls up to 30 pages, parses `sitemap.xml`, discovers all scannable file links from `<script>`, `<link>`, and `<a>` tags
+- **Phase 2: Dual-layer deep scan**:
+  - **Regex-powered pattern matching** — works on any text format with high accuracy
+  - **JSON-aware recursive scan** — parses JSON structures and walks every key-value pair recursively, detecting sensitive key names even without explicit regex matches
+- **70+ secret pattern detection** — comprehensive coverage for AWS, GCP, Azure, Stripe, GitHub, Slack, OpenAI, JWT, and many more (full list below)
+- **AWS detection (18 patterns)** — Access Key, Secret Key, Session Token, SES SMTP, S3 Buckets (3 formats), ARN, CloudFront, API Gateway, Cognito (3 types), Lambda URL, SQS, SNS, ECR, RDS, ElastiCache, Elastic Beanstalk, Region, Account ID
+
+### 🤖 AI-Powered Security Analysis (New in v2.0)
+- **Multi-provider support** — Gemini, ChatGPT, Claude, DeepSeek, OpenRouter
+- **Automated risk assessment** — Critical / High / Medium / Low severity classification
+- **Risk scoring** — overall security risk score from 0–100 with detailed justification
+- **Actionable recommendations** — prioritized, context-aware remediation steps
+- **Rich markdown output** — professional-grade security report with formatted sections
+- **Auto-detection** — automatically identifies your AI provider from the API key format
+- **One-click analysis** — run AI analysis with a single click, or auto-trigger on scan completion
 
 ### 🛠️ Tools & UI
-- **File type badges** - color-coded badges (JS, JSON, ENV, YAML, XML, BAK, PHP, etc.) per file in results
-- **Proxy support** - configurable CORS proxy list with built-in known proxies (CodeTabs, Corsproxy, AllOrigins, etc.)
-- **Export results** - export secrets, endpoints, or full findings as JSON
-- **Search & filter** - real-time search and filter by type (secrets / endpoints / all files)
-- **Sticky header & tabs** - Secrets | Endpoints | All Files | AI Analysis view
+- **File type badges** — color-coded badges (JS, JSON, ENV, YAML, XML, BAK, PHP, etc.) per file in results
+- **Proxy support** — configurable CORS proxy list with built-in known proxies (CodeTabs, Corsproxy, AllOrigins, etc.)
+- **Export results** — export secrets, endpoints, or full findings as JSON
+- **Real-time search & filter** — instantly search and filter by type (secrets / endpoints / all files)
+- **Sticky header & tabbed view** — Secrets | Endpoints | All Files | AI Analysis
 
 ---
 
 ## 🚀 Installation
 
 > Termite Recon is not on the Chrome Web Store. Install it manually as an unpacked extension.
+
+<p align="center">
+  <img src="screenshot/install.gif" alt="Installation Demo" width="720" />
+  <br>
+  <em>Quick installation walkthrough</em>
+</p>
 
 1. **Clone or download** this repository:
    ```bash
@@ -80,7 +107,7 @@
 
 3. Enable **Developer Mode** (toggle in top-right corner)
 
-4. Click **"Load unpacked"** and select the `chrome-extension` folder
+4. Click **"Load unpacked"** and select the `termite-recon` folder
 
 5. The **Termite Recon** icon will appear in your Chrome toolbar ✅
 
@@ -88,7 +115,7 @@
 
 ## 🧭 How to Use
 
-### Basic Scanning
+### Basic Scanning (Public Pages)
 1. Navigate to the **target website** you want to scan
 2. Click the **Termite Recon** icon in the Chrome toolbar
 3. *(Optional)* Add a CORS proxy if needed (e.g., `api.codetabs.com`)
@@ -96,12 +123,21 @@
 5. Wait for the scan to complete (Phase 0 → Phase 1 → Phase 2)
 6. Click **"Result"** to view findings in a new tab
 
+### Authenticated Page Scanning (No Cookie Required) 🍪
+1. **Login** to the target website in your browser as you normally would
+2. Navigate to the **authenticated page** you want to scan (e.g., dashboard, admin panel, internal API docs)
+3. Click the **Termite Recon** icon and click **"Scan"**
+4. Termite Recon will scan using your **active browser session** — no cookie extraction needed
+5. Click **"Result"** to view findings
+
+> 💡 **Pro Tip:** Because Termite Recon runs as a Chrome Extension, it inherits your browser's session context. This means you can scan any page you have access to — including pages behind SSO, OAuth, MFA, or any other authentication mechanism — without ever needing to export or manage cookies manually.
+
 ### AI Security Analysis (v2.0)
 1. In the popup, find the **"AI Analysis Key"** section
 2. Paste your AI API key (supports Gemini, ChatGPT, Claude, DeepSeek, or OpenRouter)
 3. The provider will be **auto-detected** from your key format
-4. Click **"Save"** — the provider badge will appear
-5. Run a scan — AI analysis will **automatically start** after results load
+4. Click **"Save"** - the provider badge will appear
+5. Run a scan - AI analysis will **automatically start** after results load
 6. You can also manually click **"Run AI Analysis"** in the results page
 
 ### Supported AI Providers & API Keys
